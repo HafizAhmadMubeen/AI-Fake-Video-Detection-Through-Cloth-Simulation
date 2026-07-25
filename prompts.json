@@ -1,0 +1,142 @@
+{
+  "real/Man boxing": {
+    "upper": [
+      248,
+      92
+    ],
+    "lower": [
+      242,
+      169
+    ]
+  },
+  "real/man doing ghost rope": {
+    "upper": [
+      251,
+      106
+    ],
+    "lower": [
+      250,
+      160
+    ]
+  },
+  "real/Man doing Knee thrust": {
+    "upper": [
+      293,
+      92
+    ],
+    "lower": [
+      281,
+      148
+    ]
+  },
+  "real/Man doing side lunges": {
+    "upper": [
+      246,
+      106
+    ],
+    "lower": [
+      251,
+      155
+    ]
+  },
+  "real/Man Excersing": {
+    "upper": [
+      303,
+      137
+    ],
+    "lower": [
+      323,
+      171
+    ]
+  },
+  "real/Man high knee jumping": {
+    "upper": [
+      253,
+      127
+    ],
+    "lower": [
+      261,
+      153
+    ]
+  },
+  "real/Man jumping": {
+    "upper": [
+      258,
+      110
+    ],
+    "lower": [
+      253,
+      161
+    ]
+  },
+  "real/Man playing basketball": {
+    "upper": [
+      224,
+      95
+    ],
+    "lower": [
+      237,
+      163
+    ]
+  },
+  "real/Man playing basketball(1)": {
+    "upper": [
+      251,
+      115
+    ],
+    "lower": [
+      258,
+      161
+    ]
+  },
+  "fake/Little girl dancing": {
+    "upper": [
+      258,
+      378
+    ],
+    "lower": [
+      281,
+      819
+    ]
+  },
+  "fake/man dancing": {
+    "upper": [
+      307,
+      224
+    ],
+    "lower": [
+      285,
+      415
+    ]
+  },
+  "fake/Man jumping": {
+    "upper": [
+      261,
+      120
+    ],
+    "lower": [
+      251,
+      176
+    ]
+  },
+  "fake/Man jumping (2)": {
+    "upper": [
+      190,
+      123
+    ],
+    "lower": [
+      179,
+      175
+    ]
+  },
+  "fake/Man playing badminton": {
+    "upper": [
+      261,
+      148
+    ],
+    "lower": [
+      256,
+      230
+    ]
+  }
+}
