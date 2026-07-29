@@ -37,3 +37,11 @@ dist/
 # OS junk files
 .DS_Store
 Thumbs.db
+
+cotracker_repo/
+
+cotracker_checkpoints/
+
+visualizations/
+
+phase3_failures.txt
