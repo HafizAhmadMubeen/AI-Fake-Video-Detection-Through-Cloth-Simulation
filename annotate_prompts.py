@@ -1,8 +1,33 @@
 """
-Phase 2a: Manually annotate SAM2 click prompts on the first frame of each video.
+Phase 2a (reworked): Draw a bounding BOX around the upper garment and another
+around the lower garment, for frame 0 of each video, instead of a single
+click point.
 
-Walks frames/real/<video_name>/frame_0000.jpg and frames/fake/<video_name>/frame_0000.jpg,
-collects one upper-garment and one lower-garment click per video, and writes prompts.json.
+Why this changed: single-point prompts proved unreliable -- SAM2 sometimes
+grabbed the whole body (point too ambiguous, no boundary information) or
+produced an empty mask (point landed somewhere SAM2 couldn't anchor to).
+A box gives SAM2 an explicit boundary, which is a much stronger and more
+reliable signal for isolating a specific garment region.
+
+Controls, per video:
+  - Click and drag to draw a box around the UPPER garment, release to confirm.
+  - Click and drag to draw a box around the LOWER garment, release to confirm.
+  - Press 'r' to redo both boxes for this video.
+  - Press 's' to skip this video.
+  - Press any other key once both boxes are drawn to confirm and move on.
+
+Output structure per video in prompts.json:
+{
+  "real/video_name": {
+    "upper": [x1, y1, x2, y2],
+    "lower": [x1, y1, x2, y2]
+  },
+  ...
+}
+
+Usage:
+  python annotate_prompts.py --frames frames --output prompts.json
+  python annotate_prompts.py --frames frames --output prompts.json --redo
 """
 
 import argparse
@@ -11,262 +36,166 @@ from pathlib import Path
 
 import cv2
 
-FIRST_FRAME_NAME = "frame_0000.jpg"
 LABELS = ("real", "fake")
 
-INSTRUCTIONS = (
-    "Click upper garment, then lower garment, then press any key to continue. "
-    "Press 'r' to redo this frame. Press 's' to skip this video."
-)
+drawing = False
+start_point = None
+current_box = None
+boxes_this_video = []
+window_name = "Draw box: UPPER garment then LOWER garment (drag with mouse)"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Annotate upper/lower garment click prompts for SAM2 segmentation."
-    )
-    parser.add_argument(
-        "--frames",
-        type=Path,
-        default=Path("frames"),
-        help='Path to frames root folder (default: "frames").',
-    )
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=Path("prompts.json"),
-        help='Path to save prompts.json (default: "prompts.json").',
-    )
-    parser.add_argument(
-        "--redo",
-        action="store_true",
-        help="Re-annotate videos that already have entries in prompts.json.",
-    )
+    parser = argparse.ArgumentParser(description="Draw box prompts for upper/lower garments.")
+    parser.add_argument("--frames", type=Path, default=Path("frames"))
+    parser.add_argument("--output", type=Path, default=Path("prompts.json"))
+    parser.add_argument("--redo", action="store_true", help="Re-annotate videos already in the output file.")
     return parser.parse_args()
 
 
-def load_prompts(path: Path) -> dict:
-    """Load existing prompts JSON, or return an empty dict if missing."""
-    if not path.is_file():
-        return {}
-    try:
-        with path.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            print(f"WARNING: {path} is not a JSON object; starting fresh.")
-            return {}
-        return data
-    except json.JSONDecodeError as exc:
-        print(f"WARNING: Could not parse {path} ({exc}); starting fresh.")
-        return {}
+def mouse_callback(event, x, y, flags, param):
+    global drawing, start_point, current_box
+
+    if event == cv2.EVENT_LBUTTONDOWN:
+        drawing = True
+        start_point = (x, y)
+        current_box = None
+
+    elif event == cv2.EVENT_MOUSEMOVE:
+        if drawing:
+            current_box = (start_point[0], start_point[1], x, y)
+
+    elif event == cv2.EVENT_LBUTTONUP:
+        drawing = False
+        if start_point is not None:
+            x1, y1 = start_point
+            x2, y2 = x, y
+            box = [min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)]
+            if box[2] - box[0] > 3 and box[3] - box[1] > 3:  # ignore accidental clicks/tiny drags
+                boxes_this_video.append(box)
+            current_box = None
 
 
-def save_prompts(path: Path, prompts: dict) -> None:
-    """Write prompts to disk with stable key ordering."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(prompts, f, indent=2)
-        f.write("\n")
+def draw_overlay(base_frame, label_text: str):
+    display = base_frame.copy()
 
+    colors = [(255, 140, 0), (0, 140, 255)]  # blue for upper, orange for lower
+    for i, box in enumerate(boxes_this_video):
+        color = colors[i] if i < len(colors) else (0, 255, 0)
+        cv2.rectangle(display, (box[0], box[1]), (box[2], box[3]), color, 2)
 
-def list_video_folders(frames_root: Path, label: str) -> list[Path]:
-    """Return sorted video frame folders under frames/<label>/."""
-    label_dir = frames_root / label
-    if not label_dir.is_dir():
-        print(f"WARNING: Label folder not found, skipping: {label_dir}")
-        return []
-    folders = sorted(path for path in label_dir.iterdir() if path.is_dir())
-    if not folders:
-        print(f"No video folders found in {label_dir}")
-    return folders
+    if drawing and current_box is not None:
+        cv2.rectangle(display, (current_box[0], current_box[1]), (current_box[2], current_box[3]), (0, 255, 0), 1)
 
-
-def draw_ui(image, clicks: list[tuple[int, int]], status: str) -> None:
-    """Draw instructions, click markers, and status text on *image* in place."""
-    display = image.copy()
-    overlay = display.copy()
-    cv2.rectangle(overlay, (0, 0), (display.shape[1], 90), (0, 0, 0), -1)
-    cv2.addWeighted(overlay, 0.55, display, 0.45, 0, display)
-
+    cv2.putText(display, label_text, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(
-        display,
-        INSTRUCTIONS,
-        (10, 25),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.55,
-        (255, 255, 255),
-        1,
-        cv2.LINE_AA,
+        display, "r=redo  s=skip  any other key=confirm once both boxes drawn",
+        (10, display.shape[0] - 12), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 1, cv2.LINE_AA,
     )
-    cv2.putText(
-        display,
-        status,
-        (10, 55),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.55,
-        (180, 220, 255),
-        1,
-        cv2.LINE_AA,
-    )
-    cv2.putText(
-        display,
-        f"Clicks: {len(clicks)}/2",
-        (10, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.55,
-        (180, 255, 180),
-        1,
-        cv2.LINE_AA,
-    )
-
-    colors = [(255, 180, 0), (0, 180, 255)]  # upper (blue-ish), lower (orange-ish)
-    labels = ("upper", "lower")
-    for idx, (x, y) in enumerate(clicks):
-        color = colors[idx]
-        cv2.circle(display, (x, y), 6, color, -1)
-        cv2.circle(display, (x, y), 10, (255, 255, 255), 2)
-        cv2.putText(
-            display,
-            labels[idx],
-            (x + 12, y - 8),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.6,
-            color,
-            2,
-            cv2.LINE_AA,
-        )
-
-    image[:] = display
+    return display
 
 
-def annotate_video(
-    frame_path: Path,
-    video_key: str,
-    window_name: str,
-) -> dict | None | str:
-    """
-    Interactively annotate one video's first frame.
+def annotate_video(frame_path: Path) -> dict | None:
+    """Returns {"upper": [x1,y1,x2,y2], "lower": [...]} or None if skipped."""
+    global boxes_this_video
 
-    Returns:
-        {"upper": [x, y], "lower": [x, y]} on success,
-        None if the user skips the video,
-        "redo_needed" is not returned — handled internally.
-    """
-    image = cv2.imread(str(frame_path))
-    if image is None:
-        print(f"  WARNING: Could not read image, skipping: {frame_path}")
+    frame = cv2.imread(str(frame_path))
+    if frame is None:
+        print(f"  WARNING: Could not load {frame_path}")
         return None
 
-    clicks: list[tuple[int, int]] = []
-    status = "Left-click: upper garment"
-
-    def on_mouse(event, x, y, _flags, _param) -> None:
-        if event == cv2.EVENT_LBUTTONDOWN and len(clicks) < 2:
-            clicks.append((x, y))
-            nonlocal status
-            if len(clicks) == 1:
-                status = "Left-click: lower garment"
-            else:
-                status = "Press any key to save, 'r' to redo, 's' to skip"
-
-    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    cv2.setMouseCallback(window_name, on_mouse)
+    cv2.namedWindow(window_name)
+    cv2.setMouseCallback(window_name, mouse_callback)
 
     while True:
-        canvas = image.copy()
-        draw_ui(canvas, clicks, status)
-        cv2.imshow(window_name, canvas)
-        key = cv2.waitKey(20) & 0xFF
+        boxes_this_video = []
+        while True:
+            if len(boxes_this_video) == 0:
+                label_text = "Draw box around UPPER garment"
+            elif len(boxes_this_video) == 1:
+                label_text = "Draw box around LOWER garment"
+            else:
+                label_text = "Both boxes drawn -- press any key to confirm"
 
-        if key == ord("r"):
-            clicks.clear()
-            status = "Left-click: upper garment"
-            continue
+            display = draw_overlay(frame, label_text)
+            cv2.imshow(window_name, display)
+            key = cv2.waitKey(20) & 0xFF
 
-        if key == ord("s"):
-            cv2.destroyWindow(window_name)
-            print(f"  Skipped by user: {video_key}")
-            return None
-
-        if key != 255:  # any key pressed
-            if len(clicks) != 2:
-                print(
-                    f"  WARNING: Expected 2 clicks before continuing, got {len(clicks)}. "
-                    "Press 'r' to redo."
-                )
-                status = "Need exactly 2 clicks — press 'r' to redo"
+            if key == ord('s'):
+                cv2.destroyWindow(window_name)
+                return None
+            if key == ord('r'):
+                boxes_this_video = []
                 continue
+            if key != 255 and len(boxes_this_video) >= 2:
+                break
 
+        if len(boxes_this_video) >= 2:
             cv2.destroyWindow(window_name)
-            return {
-                "upper": [clicks[0][0], clicks[0][1]],
-                "lower": [clicks[1][0], clicks[1][1]],
-            }
-
-
-def collect_annotation_jobs(frames_root: Path) -> list[tuple[str, Path]]:
-    """Build a list of (video_key, frame_0000 path) jobs."""
-    jobs: list[tuple[str, Path]] = []
-    for label in LABELS:
-        for video_dir in list_video_folders(frames_root, label):
-            frame_path = video_dir / FIRST_FRAME_NAME
-            video_key = f"{label}/{video_dir.name}"
-            if not frame_path.is_file():
-                print(f"WARNING: Missing {FIRST_FRAME_NAME}, skipping: {video_dir}")
-                continue
-            jobs.append((video_key, frame_path))
-    return jobs
+            return {"upper": boxes_this_video[0], "lower": boxes_this_video[1]}
+        # otherwise loop back (e.g. user pressed a key before finishing both boxes)
 
 
 def main() -> None:
     args = parse_args()
+
     frames_root = args.frames.resolve()
     output_path = args.output.resolve()
 
-    if not frames_root.is_dir():
-        raise SystemExit(f"ERROR: Frames folder is not a directory: {frames_root}")
+    existing = {}
+    if output_path.is_file():
+        with output_path.open("r", encoding="utf-8") as f:
+            existing = json.load(f)
 
-    prompts = load_prompts(output_path)
-    jobs = collect_annotation_jobs(frames_root)
+    videos = []
+    for label in LABELS:
+        label_dir = frames_root / label
+        if not label_dir.is_dir():
+            continue
+        for video_dir in sorted(label_dir.iterdir()):
+            if video_dir.is_dir():
+                videos.append((label, video_dir.name))
 
-    print(f"Frames root : {frames_root}")
-    print(f"Output file : {output_path}")
-    print(f"Videos found: {len(jobs)}")
+    if not videos:
+        raise SystemExit(f"ERROR: No videos found under {frames_root}")
+
+    print(f"Frames root: {frames_root}")
+    print(f"Output     : {output_path}")
+    print(f"Videos     : {len(videos)}")
     print("-" * 60)
 
-    annotated = 0
-    skipped_existing = 0
-    skipped_user = 0
+    for label, video_name in videos:
+        video_key = f"{label}/{video_name}"
 
-    for video_key, frame_path in jobs:
-        if video_key in prompts and not args.redo:
+        if video_key in existing and not args.redo:
             print(f"Skipping (already annotated): {video_key}")
-            skipped_existing += 1
             continue
 
-        print(f"Annotating: {video_key}")
-        print(f"  Frame: {frame_path}")
+        video_dir = frames_root / label / video_name
+        frame_files = sorted(
+            [p for p in video_dir.glob("*.jpg") if p.is_file()],
+            key=lambda p: int(p.stem) if p.stem.isdigit() else p.stem,
+        )
+        if not frame_files:
+            print(f"WARNING: No frames found for {video_key}, skipping")
+            continue
 
-        window_name = f"Annotate: {video_key}"
-        result = annotate_video(frame_path, video_key, window_name)
+        print(f"\nAnnotating: {video_key}")
+        result = annotate_video(frame_files[0])
 
         if result is None:
-            skipped_user += 1
+            print(f"  Skipped: {video_key}")
             continue
 
-        prompts[video_key] = result
-        save_prompts(output_path, prompts)
-        annotated += 1
-        print(f"  Saved prompts for {video_key}")
+        existing[video_key] = result
+        print(f"  Upper box: {result['upper']}")
+        print(f"  Lower box: {result['lower']}")
+
+        with output_path.open("w", encoding="utf-8") as f:
+            json.dump(existing, f, indent=2)
 
     cv2.destroyAllWindows()
-
-    print("\n" + "=" * 60)
-    print("SUMMARY")
-    print("=" * 60)
-    print(f"  Newly annotated     : {annotated}")
-    print(f"  Skipped (existing)  : {skipped_existing}")
-    print(f"  Skipped (by user)   : {skipped_user}")
-    print(f"  Total in {output_path.name}: {len(prompts)}")
+    print(f"\nDone. Saved to: {output_path}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,254 @@
+[
+  {
+    "video": "real/Man boxing",
+    "garment": "upper",
+    "num_points": 42,
+    "visibility_rate": 0.7757142857142857,
+    "mask_containment_rate": 0.9042857142857142,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man boxing",
+    "garment": "lower",
+    "num_points": 52,
+    "visibility_rate": 0.9907692307692307,
+    "mask_containment_rate": 0.965,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/man doing ghost rope",
+    "garment": "upper",
+    "num_points": 52,
+    "visibility_rate": 1.0,
+    "mask_containment_rate": 0.9865384615384616,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/man doing ghost rope",
+    "garment": "lower",
+    "num_points": 54,
+    "visibility_rate": 1.0,
+    "mask_containment_rate": 0.97,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/Man doing Knee thrust",
+    "garment": "upper",
+    "num_points": 39,
+    "visibility_rate": 0.7256410256410256,
+    "mask_containment_rate": 0.8923076923076924,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man doing Knee thrust",
+    "garment": "lower",
+    "num_points": 30,
+    "visibility_rate": 0.47,
+    "mask_containment_rate": 0.6926666666666667,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man doing side lunges",
+    "garment": "upper",
+    "num_points": 44,
+    "visibility_rate": 0.8995454545454545,
+    "mask_containment_rate": 0.955,
+    "jump_rate": 0.00046382189239332097,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man doing side lunges",
+    "garment": "lower",
+    "num_points": 45,
+    "visibility_rate": 0.9111111111111111,
+    "mask_containment_rate": 0.8835555555555555,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man Excersing",
+    "garment": "upper",
+    "num_points": 50,
+    "visibility_rate": 0.2452,
+    "mask_containment_rate": 0.3944,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man Excersing",
+    "garment": "lower",
+    "num_points": 46,
+    "visibility_rate": 0.9956521739130435,
+    "mask_containment_rate": 0.98,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/Man high knee jumping",
+    "garment": "upper",
+    "num_points": 42,
+    "visibility_rate": 0.9347619047619048,
+    "mask_containment_rate": 0.950952380952381,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/Man high knee jumping",
+    "garment": "lower",
+    "num_points": 34,
+    "visibility_rate": 0.7423529411764705,
+    "mask_containment_rate": 0.8611764705882353,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man jumping",
+    "garment": "upper",
+    "num_points": 49,
+    "visibility_rate": 0.9571428571428572,
+    "mask_containment_rate": 0.9653061224489796,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/Man jumping",
+    "garment": "lower",
+    "num_points": 47,
+    "visibility_rate": 1.0,
+    "mask_containment_rate": 0.9902127659574468,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "real/Man playing basketball(1)",
+    "garment": "upper",
+    "num_points": 25,
+    "visibility_rate": 0.5032,
+    "mask_containment_rate": 0.8552,
+    "jump_rate": 0.0024489795918367346,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man playing basketball(1)",
+    "garment": "lower",
+    "num_points": 49,
+    "visibility_rate": 0.08448979591836735,
+    "mask_containment_rate": 0.5338775510204081,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man playing basketball",
+    "garment": "upper",
+    "num_points": 27,
+    "visibility_rate": 0.7866666666666666,
+    "mask_containment_rate": 0.92,
+    "jump_rate": 0.0022675736961451248,
+    "status": "REVIEW"
+  },
+  {
+    "video": "real/Man playing basketball",
+    "garment": "lower",
+    "num_points": 41,
+    "visibility_rate": 0.8970731707317073,
+    "mask_containment_rate": 0.8468292682926829,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Little girl dancing",
+    "garment": "upper",
+    "num_points": 44,
+    "visibility_rate": 0.7490909090909091,
+    "mask_containment_rate": 0.7722727272727272,
+    "jump_rate": 0.04081632653061224,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Little girl dancing",
+    "garment": "lower",
+    "num_points": 50,
+    "visibility_rate": 0.9332,
+    "mask_containment_rate": 0.9536,
+    "jump_rate": 0.029387755102040815,
+    "status": "PASS"
+  },
+  {
+    "video": "fake/man dancing",
+    "garment": "upper",
+    "num_points": 23,
+    "visibility_rate": 0.30434782608695654,
+    "mask_containment_rate": 0.6260869565217392,
+    "jump_rate": 0.0008873114463176575,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/man dancing",
+    "garment": "lower",
+    "num_points": 34,
+    "visibility_rate": 0.19705882352941176,
+    "mask_containment_rate": 0.7952941176470588,
+    "jump_rate": 0.011404561824729893,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Man jumping (2)",
+    "garment": "upper",
+    "num_points": 40,
+    "visibility_rate": 0.9921296296296296,
+    "mask_containment_rate": 0.9125,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "fake/Man jumping (2)",
+    "garment": "lower",
+    "num_points": 24,
+    "visibility_rate": 0.9290123456790124,
+    "mask_containment_rate": 0.9637345679012346,
+    "jump_rate": 0.0,
+    "status": "PASS"
+  },
+  {
+    "video": "fake/Man jumping",
+    "garment": "upper",
+    "num_points": 44,
+    "visibility_rate": 0.055134680134680134,
+    "mask_containment_rate": 0.7428451178451179,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Man jumping",
+    "garment": "lower",
+    "num_points": 32,
+    "visibility_rate": 0.16550925925925927,
+    "mask_containment_rate": 0.7083333333333334,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Man playing badminton",
+    "garment": "upper",
+    "num_points": 44,
+    "visibility_rate": 0.5332491582491582,
+    "mask_containment_rate": 0.7074915824915825,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  },
+  {
+    "video": "fake/Man playing badminton",
+    "garment": "lower",
+    "num_points": 42,
+    "visibility_rate": 0.27336860670194,
+    "mask_containment_rate": 0.5286596119929453,
+    "jump_rate": 0.0,
+    "status": "REVIEW"
+  }
+]

@@ -1,8 +1,15 @@
 """
 Phase 2b: Segment upper- and lower-body garments with SAM2's video predictor.
 
-Uses click prompts from prompts.json to track two objects (upper = ID 1, lower = ID 2)
-across every frame in each video folder.
+Uses BOX prompts from prompts.json (drawn via annotate_prompts.py) to track two
+objects (upper = ID 1, lower = ID 2) across every frame in each video folder.
+
+This project switched from single-point click prompts to box prompts after
+finding point prompts unreliable -- SAM2 would sometimes segment the whole
+body instead of just the garment (point too ambiguous with no boundary
+information), or produce an empty mask (point landed somewhere SAM2 couldn't
+anchor to). A box gives SAM2 an explicit boundary, which is a much stronger
+and more reliable signal for isolating a specific garment region.
 
 SAM2.1 checkpoint setup (run once before first use)
 ---------------------------------------------------
@@ -191,15 +198,18 @@ def process_one_video(
     if not frame_files:
         raise FileNotFoundError(f"No frame images found in {video_dir}")
 
-    upper_pt = prompt.get("upper")
-    lower_pt = prompt.get("lower")
+    upper_box = prompt.get("upper")
+    lower_box = prompt.get("lower")
     if (
-        not isinstance(upper_pt, list)
-        or len(upper_pt) != 2
-        or not isinstance(lower_pt, list)
-        or len(lower_pt) != 2
+        not isinstance(upper_box, list)
+        or len(upper_box) != 4
+        or not isinstance(lower_box, list)
+        or len(lower_box) != 4
     ):
-        raise ValueError(f"Prompt for {video_key} must contain 'upper' and 'lower' [x, y] lists")
+        raise ValueError(
+            f"Prompt for {video_key} must contain 'upper' and 'lower' [x1, y1, x2, y2] boxes "
+            f"(this project switched from single-point prompts to box prompts for reliability)"
+        )
 
     upper_out = output_root / "upper" / label / video_name
     lower_out = output_root / "lower" / label / video_name
@@ -211,18 +221,16 @@ def process_one_video(
     with torch.inference_mode(), torch.autocast(device, dtype=torch.bfloat16):
         state = predictor.init_state(video_path=str(video_dir))
 
-        for obj_id, point in (
-            (UPPER_OBJECT_ID, upper_pt),
-            (LOWER_OBJECT_ID, lower_pt),
+        for obj_id, box in (
+            (UPPER_OBJECT_ID, upper_box),
+            (LOWER_OBJECT_ID, lower_box),
         ):
-            points = np.array([[float(point[0]), float(point[1])]], dtype=np.float32)
-            labels = np.array([1], dtype=np.int32)
+            box_arr = np.array(box, dtype=np.float32)
             predictor.add_new_points_or_box(
                 inference_state=state,
                 frame_idx=0,
                 obj_id=obj_id,
-                points=points,
-                labels=labels,
+                box=box_arr,
             )
 
         for frame_idx, obj_ids, mask_logits in predictor.propagate_in_video(state):
@@ -292,14 +300,38 @@ def main() -> None:
     prompts_path = args.prompts.resolve()
     output_root = args.output.resolve()
     checkpoint = args.checkpoint.resolve()
-    config = str(args.config.resolve())
+    # IMPORTANT: do NOT resolve() the config into an absolute path. SAM2's
+    # build_sam2_video_predictor() uses Hydra, which expects a config NAME
+    # relative to the installed sam2 package (pkg://sam2), not a filesystem
+    # path. Resolving it here broke that -- Hydra would try to interpret an
+    # absolute Drive path as if it were a package-relative config name.
+    # We keep the raw string exactly as given for Hydra to resolve itself,
+    # and separately verify a matching file actually exists inside the
+    # installed sam2 package (decoupled from cwd or path format entirely).
+    config = str(args.config)
 
     if not frames_root.is_dir():
         raise SystemExit(f"ERROR: Frames folder is not a directory: {frames_root}")
     if not checkpoint.is_file():
         raise SystemExit(f"ERROR: Checkpoint not found: {checkpoint}")
-    if not Path(config).is_file():
-        raise SystemExit(f"ERROR: Config not found: {config}")
+
+    try:
+        import sam2 as _sam2_pkg
+        sam2_pkg_dir = Path(_sam2_pkg.__file__).resolve().parent
+        # config is typically given as "configs/sam2.1/sam2.1_hiera_s.yaml"
+        # relative to the sam2 package root -- check it exists there.
+        candidate = sam2_pkg_dir / config
+        if not candidate.is_file():
+            raise SystemExit(
+                f"ERROR: Config '{config}' not found inside the installed sam2 "
+                f"package at {sam2_pkg_dir}. Expected something like "
+                f"'configs/sam2.1/sam2.1_hiera_s.yaml' (the SAME string Hydra "
+                f"will use to look it up), and it should exist at "
+                f"{sam2_pkg_dir / 'configs/sam2.1/sam2.1_hiera_s.yaml'}."
+            )
+    except ImportError:
+        print("WARNING: could not import sam2 package to pre-verify the config path; "
+              "proceeding anyway and letting Hydra report any issue directly.")
 
     prompts = load_prompts(prompts_path)
     if not prompts:
