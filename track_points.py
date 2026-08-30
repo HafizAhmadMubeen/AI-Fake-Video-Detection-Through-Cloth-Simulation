@@ -236,14 +236,28 @@ def build_segment_trajectories(seg_tracks, seg_visibility, frame_offset: int) ->
 
 
 @torch.inference_mode()
-def track_from_seed_frame(model, video, seed_points, query_frame: int):
-    queries = torch.zeros((1, len(seed_points), 3), dtype=torch.float32, device=video.device)
-    queries[:, :, 0] = float(query_frame)
+def track_from_seed_frame(model, video_segment, seed_points):
+    """
+    video_segment: an already-sliced tensor covering ONLY the frames this
+    re-seed group needs to track (seed_frame through the next re-seed
+    boundary, or end of video for the last group). Query frame is always 0
+    relative to this slice -- absolute frame numbers are restored later via
+    frame_offset in build_segment_trajectories.
+
+    This is a deliberate change from passing the FULL video on every call:
+    with periodic re-seeding, doing that would mean re-processing the whole
+    clip once per re-seed group (e.g. ~10x more compute per video with a
+    15-frame re-seed interval on a 150-frame clip), which made local GPU
+    memory pressure worse rather than better. Slicing first keeps each call
+    proportional to just the segment it actually needs.
+    """
+    queries = torch.zeros((1, len(seed_points), 3), dtype=torch.float32, device=video_segment.device)
+    queries[:, :, 0] = 0.0  # relative to this segment, always frame 0
     for idx, (x, y) in enumerate(seed_points):
         queries[0, idx, 1] = float(x)
         queries[0, idx, 2] = float(y)
 
-    tracks, visibility = model(video, queries=queries, grid_size=0, grid_query_frame=query_frame)
+    tracks, visibility = model(video_segment, queries=queries, grid_size=0, grid_query_frame=0)
     tracks_np = tracks[0].detach().cpu().numpy()
     vis_np = visibility[0].detach().cpu().numpy().astype(bool)
     if vis_np.ndim == 3 and vis_np.shape[-1] == 1:
@@ -282,15 +296,19 @@ def process_video(model, device, frames_root, seed_points_root, output_root, lab
                 print(f"  Tracking {garment} segment: seed_frame={seed_frame}, "
                       f"{len(points)} point(s), covers frames [{seed_frame}, {next_seed})...")
                 started = time.perf_counter()
-                tracks, visibility = track_from_seed_frame(model, video, points, query_frame=seed_frame)
+
+                # Slice the video down to just this segment's frames BEFORE
+                # calling CoTracker -- see track_from_seed_frame's docstring
+                # for why this matters (avoids ~10x redundant full-video
+                # compute with periodic re-seeding).
+                video_segment = video[:, seed_frame:next_seed]
+                seg_tracks, seg_vis = track_from_seed_frame(model, video_segment, points)
                 elapsed = time.perf_counter() - started
 
-                seg_tracks = tracks[seed_frame:next_seed]
-                seg_vis = visibility[seed_frame:next_seed]
                 seg_points = build_segment_trajectories(seg_tracks, seg_vis, frame_offset=seed_frame)
                 segments.append({"seed_frame": seed_frame, "points": seg_points})
 
-                del tracks, visibility, seg_tracks, seg_vis
+                del video_segment, seg_tracks, seg_vis
                 release_memory()
                 print(f"    done in {elapsed:.1f}s")
 

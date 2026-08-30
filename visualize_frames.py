@@ -33,14 +33,29 @@ POINT_RADIUS = 5
 FRAME_GLOB = "*.jpg"
 
 
+LABELS = ("real", "fake")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Save annotated tracking frames as individual images.")
     parser.add_argument("--frames", type=Path, default=Path("frames"))
     parser.add_argument("--trajectories", type=Path, default=Path("trajectories"))
     parser.add_argument("--output", type=Path, default=Path("frame_review"))
-    parser.add_argument("--video", type=str, required=True, help='e.g. "real/Man Excersing"')
+    parser.add_argument("--video", type=str, default=None, help='e.g. "real/Man Excersing". Omit if using --all.')
+    parser.add_argument("--all", action="store_true", help="Process every video found under --trajectories.")
     parser.add_argument("--step", type=int, default=1, help="Save every Nth frame (default: 1, all frames).")
     return parser.parse_args()
+
+
+def discover_videos(trajectories_root: Path) -> list[tuple[str, str]]:
+    videos = []
+    for label in LABELS:
+        label_dir = trajectories_root / label
+        if not label_dir.is_dir():
+            continue
+        for json_path in sorted(label_dir.glob("*.json")):
+            videos.append((label, json_path.stem))
+    return videos
 
 
 def list_frame_files(video_dir: Path) -> list[Path]:
@@ -84,38 +99,31 @@ def draw_points_on_frame(frame: np.ndarray, garment_data: dict, garment: str, fr
             )
 
 
-def main() -> None:
-    args = parse_args()
-
-    if "/" not in args.video:
-        raise SystemExit('ERROR: --video must be in "label/video_name" format, e.g. "real/Man Excersing"')
-    label, video_name = args.video.split("/", 1)
-
-    frames_root = args.frames.resolve()
-    trajectories_root = args.trajectories.resolve()
-    output_root = args.output.resolve()
-
+def process_video(frames_root: Path, trajectories_root: Path, output_root: Path, label: str, video_name: str, step: int) -> None:
     video_dir = frames_root / label / video_name
     traj_path = trajectories_root / label / f"{video_name}.json"
 
     if not video_dir.is_dir():
-        raise SystemExit(f"ERROR: Frames folder not found: {video_dir}")
+        print(f"  WARNING: Frames folder not found: {video_dir}, skipping")
+        return
     if not traj_path.is_file():
-        raise SystemExit(f"ERROR: Trajectory file not found: {traj_path}")
+        print(f"  WARNING: Trajectory file not found: {traj_path}, skipping")
+        return
 
     with traj_path.open("r", encoding="utf-8") as f:
         traj_data = json.load(f)
 
     frame_files = list_frame_files(video_dir)
     if not frame_files:
-        raise SystemExit(f"ERROR: No frames found in {video_dir}")
+        print(f"  WARNING: No frames found in {video_dir}, skipping")
+        return
 
     out_dir = output_root / label / video_name
     out_dir.mkdir(parents=True, exist_ok=True)
 
     saved = 0
     for frame_idx, frame_path in enumerate(frame_files):
-        if frame_idx % args.step != 0:
+        if frame_idx % step != 0:
             continue
 
         frame = cv2.imread(str(frame_path))
@@ -135,10 +143,37 @@ def main() -> None:
         cv2.imwrite(str(out_path), frame)
         saved += 1
 
-    print(f"Saved {saved} annotated frame(s) to: {out_dir}")
-    print("Blue = upper garment, Orange = lower garment.")
+    print(f"  Saved {saved} frame(s) to {out_dir}")
+
+
+def main() -> None:
+    args = parse_args()
+
+    frames_root = args.frames.resolve()
+    trajectories_root = args.trajectories.resolve()
+    output_root = args.output.resolve()
+
+    if args.video:
+        if "/" not in args.video:
+            raise SystemExit('ERROR: --video must be in "label/video_name" format, e.g. "real/Man Excersing"')
+        label, video_name = args.video.split("/", 1)
+        videos = [(label, video_name)]
+    elif args.all:
+        videos = discover_videos(trajectories_root)
+        if not videos:
+            raise SystemExit(f"ERROR: No trajectory files found under {trajectories_root}")
+    else:
+        raise SystemExit("ERROR: Specify either --video <label/video_name> or --all")
+
+    print(f"Videos to process: {len(videos)}")
+    print("-" * 60)
+
+    for label, video_name in videos:
+        print(f"\n{label}/{video_name}")
+        process_video(frames_root, trajectories_root, output_root, label, video_name, args.step)
+
+    print("\nDone. Blue = upper garment, Orange = lower garment.")
     print("Bright/solid = tracked this frame. Faded/dim = interpolated (tracking failed that frame).")
-    print("Each point is labeled with its point_id so you can follow a specific point across images.")
 
 
 if __name__ == "__main__":
