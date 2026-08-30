@@ -53,3 +53,7 @@ Thumbs.db
 # Editor/IDE folders
 .vscode/
 .idea/
+
+# Phase 4 generated data
+simulated_trajectories/
+sim_review/
