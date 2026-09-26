@@ -1,0 +1,611 @@
+{
+  "gravity": 400.0,
+  "anchor_fraction": 0.2,
+  "anchor_mode": "frame",
+  "fit_frac": 0.3,
+  "objective": "skill = rigid_error / physics_error",
+  "fits": {
+    "real/Man boxing": {
+      "label": "real",
+      "video": "Man boxing",
+      "torso_scale_px": 63.03853650719063,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.485225332793349,
+          "fit_skill_eval": 1.6290876492218855,
+          "fit_rigid_error": 0.21762943098518867,
+          "fit_physics_error": 0.14094446624764065,
+          "fit_contrast": 1.33787626699285,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 63.03853650719063
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.031480978681976,
+          "fit_skill_eval": 1.0537149677605264,
+          "fit_rigid_error": 0.07128552004671433,
+          "fit_physics_error": 0.06562781537143833,
+          "fit_contrast": 1.9819785554489708,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 63.03853650719063
+        }
+      }
+    },
+    "real/man doing ghost rope": {
+      "label": "real",
+      "video": "man doing ghost rope",
+      "torso_scale_px": 60.30921338960754,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.49400787788328576,
+          "fit_skill_eval": 0.4934601147613658,
+          "fit_rigid_error": 0.03832758513358596,
+          "fit_physics_error": 0.07938953751256132,
+          "fit_contrast": 1.6988343468015752,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 60.30921338960754
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.32528113763218713,
+          "fit_skill_eval": 0.2994181506156659,
+          "fit_rigid_error": 0.025022408900814492,
+          "fit_physics_error": 0.08424373748847462,
+          "fit_contrast": 1.4702012466573657,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 60.30921338960754
+        }
+      }
+    },
+    "real/Man doing Knee thrust": {
+      "label": "real",
+      "video": "Man doing Knee thrust",
+      "torso_scale_px": 56.195114219874235,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 80.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.3174925333594432,
+          "fit_skill_eval": 1.4384556910764277,
+          "fit_rigid_error": 0.1909400946830058,
+          "fit_physics_error": 0.14331028166589357,
+          "fit_contrast": 1.1492615650731004,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 56.195114219874235
+        },
+        "lower": {
+          "fitted_stiffness": 80.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.5226702097728222,
+          "fit_skill_eval": 1.2490093671665874,
+          "fit_rigid_error": 0.23886405437774355,
+          "fit_physics_error": 0.22092157194583104,
+          "fit_contrast": 1.3058654798688778,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 56.195114219874235
+        }
+      }
+    },
+    "real/Man doing side lunges": {
+      "label": "real",
+      "video": "Man doing side lunges",
+      "torso_scale_px": 55.191450086542076,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 2.0,
+          "fit_skill_train": 0.7565905662987055,
+          "fit_skill_eval": 0.748912700399595,
+          "fit_rigid_error": 0.1442663453900248,
+          "fit_physics_error": 0.1798919435120707,
+          "fit_contrast": 2.902131453273146,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 55.191450086542076
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.5770097995936933,
+          "fit_skill_eval": 0.46339872391462494,
+          "fit_rigid_error": 0.08100940575449327,
+          "fit_physics_error": 0.19614523680410434,
+          "fit_contrast": 1.6177540266902695,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 55.191450086542076
+        }
+      }
+    },
+    "real/Man Excersing": {
+      "label": "real",
+      "video": "Man Excersing",
+      "torso_scale_px": 61.40906451339676,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 2.0,
+          "fit_skill_train": 1.0401112930362022,
+          "fit_skill_eval": 0.7328400050943208,
+          "fit_rigid_error": 0.11310839401629876,
+          "fit_physics_error": 0.15181891783908266,
+          "fit_contrast": 2.113075682724929,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 61.40906451339676
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.3421057615909853,
+          "fit_skill_eval": 0.3392670966574095,
+          "fit_rigid_error": 0.03832174066903695,
+          "fit_physics_error": 0.14309088511879092,
+          "fit_contrast": 1.864558268924316,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 61.40906451339676
+        }
+      }
+    },
+    "real/Man high knee jumping": {
+      "label": "real",
+      "video": "Man high knee jumping",
+      "torso_scale_px": 58.891059042333495,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.1628934166813207,
+          "fit_skill_eval": 1.2412623707908936,
+          "fit_rigid_error": 0.1226486420443557,
+          "fit_physics_error": 0.09877633872547587,
+          "fit_contrast": 1.5317489087975924,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 58.891059042333495
+        },
+        "lower": {
+          "fitted_stiffness": 20.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.41212496976995,
+          "fit_skill_eval": 1.1799706537015935,
+          "fit_rigid_error": 0.17028507994430894,
+          "fit_physics_error": 0.14127748171581284,
+          "fit_contrast": 1.0931227376586834,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 58.891059042333495
+        }
+      }
+    },
+    "real/Man jumping": {
+      "label": "real",
+      "video": "Man jumping",
+      "torso_scale_px": 64.16072018621199,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 0.8652533751670197,
+          "fit_skill_eval": 0.9000461577143322,
+          "fit_rigid_error": 0.07760026032945935,
+          "fit_physics_error": 0.08638606071207762,
+          "fit_contrast": 1.3890321713255516,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 64.16072018621199
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 0.9167481663742358,
+          "fit_skill_eval": 0.4472921440854433,
+          "fit_rigid_error": 0.04146825911080737,
+          "fit_physics_error": 0.08905951397053191,
+          "fit_contrast": 1.40077452805795,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 64.16072018621199
+        }
+      }
+    },
+    "real/Man playing basketball(1)": {
+      "label": "real",
+      "video": "Man playing basketball(1)",
+      "torso_scale_px": 73.66282619272576,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.53977433804814,
+          "fit_skill_eval": 0.7163633700214914,
+          "fit_rigid_error": 0.07245563298480877,
+          "fit_physics_error": 0.10238486268494555,
+          "fit_contrast": 1.4169694658304002,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 73.66282619272576
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.1351897669501076,
+          "fit_skill_eval": 1.2378735501378928,
+          "fit_rigid_error": 0.06668527165234399,
+          "fit_physics_error": 0.06359245230970359,
+          "fit_contrast": 1.4077663690551274,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 73.66282619272576
+        }
+      }
+    },
+    "real/Man playing basketball": {
+      "label": "real",
+      "video": "Man playing basketball",
+      "torso_scale_px": 66.92599982628772,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.9878834679475103,
+          "fit_skill_eval": 0.7726905163407636,
+          "fit_rigid_error": 0.0959717694434264,
+          "fit_physics_error": 0.12433054327149155,
+          "fit_contrast": 1.327580841553182,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 66.92599982628772
+        },
+        "lower": {
+          "fitted_stiffness": 20.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.596358212324261,
+          "fit_skill_eval": 1.7039346322805013,
+          "fit_rigid_error": 0.15330228305820484,
+          "fit_physics_error": 0.09240730278056584,
+          "fit_contrast": 1.5612664874438735,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 66.92599982628772
+        }
+      }
+    },
+    "fake/Little girl dancing": {
+      "label": "fake",
+      "video": "Little girl dancing",
+      "torso_scale_px": 203.58593619326018,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.2511370593548479,
+          "fit_skill_eval": 1.2424197987661432,
+          "fit_rigid_error": 0.16623353470817398,
+          "fit_physics_error": 0.13390278542663092,
+          "fit_contrast": 1.0678173761312864,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 203.58593619326018
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.0494420699627056,
+          "fit_skill_eval": 1.056029956569781,
+          "fit_rigid_error": 0.11325529729890306,
+          "fit_physics_error": 0.1079788263943767,
+          "fit_contrast": 1.2048843362762949,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 203.58593619326018
+        }
+      }
+    },
+    "fake/man dancing": {
+      "label": "fake",
+      "video": "man dancing",
+      "torso_scale_px": 206.8515182102479,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.1672645349518176,
+          "fit_skill_eval": 1.098818950374825,
+          "fit_rigid_error": 0.1486978471393891,
+          "fit_physics_error": 0.13641851799863453,
+          "fit_contrast": 1.110113927769545,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 206.8515182102479
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.5456732097980314,
+          "fit_skill_eval": 0.6772665518746359,
+          "fit_rigid_error": 0.09926429231837428,
+          "fit_physics_error": 0.15238667593690963,
+          "fit_contrast": 1.3211734602548535,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 7,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 206.8515182102479
+        }
+      }
+    },
+    "fake/Man jumping (2)": {
+      "label": "fake",
+      "video": "Man jumping (2)",
+      "torso_scale_px": 59.67396545773392,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 0.7891159132960156,
+          "fit_skill_eval": 0.4980880772076192,
+          "fit_rigid_error": 0.02279174266047591,
+          "fit_physics_error": 0.045513719601845505,
+          "fit_contrast": 1.6638483403233046,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 59.67396545773392
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.6720154079974959,
+          "fit_skill_eval": 0.5135120212661027,
+          "fit_rigid_error": 0.020500040519592425,
+          "fit_physics_error": 0.042042810510366534,
+          "fit_contrast": 2.2065142949127905,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 59.67396545773392
+        }
+      }
+    },
+    "fake/Man jumping": {
+      "label": "fake",
+      "video": "Man jumping",
+      "torso_scale_px": 74.01983376651967,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 20.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.1204414894712522,
+          "fit_skill_eval": 0.5442534046076167,
+          "fit_rigid_error": 0.06665082791036102,
+          "fit_physics_error": 0.12574952294011235,
+          "fit_contrast": 1.3561421786020182,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 74.01983376651967
+        },
+        "lower": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 0.9872033266591081,
+          "fit_skill_eval": 0.8681217067694593,
+          "fit_rigid_error": 0.1366864501858763,
+          "fit_physics_error": 0.16220985637804503,
+          "fit_contrast": 1.3706936688441527,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 74.01983376651967
+        }
+      }
+    },
+    "fake/Man playing badminton": {
+      "label": "fake",
+      "video": "Man playing badminton",
+      "torso_scale_px": 112.55404569192531,
+      "garments": {
+        "upper": {
+          "fitted_stiffness": 1280.0,
+          "fitted_damping": 8.0,
+          "fit_skill_train": 0.9042400806672403,
+          "fit_skill_eval": 1.0509170008358424,
+          "fit_rigid_error": 0.13277598448506897,
+          "fit_physics_error": 0.12946492204571303,
+          "fit_contrast": 1.5715789764446,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 112.55404569192531
+        },
+        "lower": {
+          "fitted_stiffness": 20.0,
+          "fitted_damping": 32.0,
+          "fit_skill_train": 1.1297932833695943,
+          "fit_skill_eval": 1.1325227877421722,
+          "fit_rigid_error": 0.1694685080903159,
+          "fit_physics_error": 0.18090708992851814,
+          "fit_contrast": 1.0906226732615774,
+          "fit_at_boundary": true,
+          "n_fit_segments": 3,
+          "n_eval_segments": 6,
+          "fit_seed_frames": [
+            0,
+            15,
+            30
+          ],
+          "torso_scale_px": 112.55404569192531
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,306 @@
+PHASE 4 FEATURE ANALYSIS
+source: E:\Fyp Project\phase4_features.csv
+not computed in this run (skipped): fitted_stiffness, fitted_damping, fit_skill_eval, fit_rigid_error, fit_physics_error, fit_contrast
+rows: 274  (180 real, 94 fake)
+videos: 14
+
+==============================================================================
+1. COMPLETENESS AUDIT
+==============================================================================
+
+Every feature should be present on (almost) every row. A high missing
+count means that feature is silently failing - fix it before Phase 5.
+
+feature                     present  missing  missing%
+------------------------------------------------------------------------------
+visible_frac                    274        0      0.0%
+pose_dist_mean_px               274        0      0.0%
+pose_dist_norm                  274        0      0.0%
+body_scale_px                   274        0      0.0%
+residual_mean_px                274        0      0.0%
+residual_median_px              274        0      0.0%
+residual_mean_norm              274        0      0.0%
+residual_median_norm            274        0      0.0%
+stretch_mean_abs                274        0      0.0%
+stretch_std                     274        0      0.0%
+stretch_max_abs                 274        0      0.0%
+strain_rate_mean                274        0      0.0%
+drape_mean_angle_deg            274        0      0.0%
+drape_angle_std_deg             274        0      0.0%
+gravity_p95_angle_deg           274        0      0.0%
+gravity_inversion_rate          274        0      0.0%
+accel_mean_magnitude            274        0      0.0%
+accel_std_magnitude             274        0      0.0%
+accel_mean_norm                 274        0      0.0%
+accel_std_norm                  274        0      0.0%
+------------------------------------------------------------------------------
+total rows: 274
+
+Constant-value check (a feature that never varies is useless):
+  all features vary - good
+
+==============================================================================
+2. UNIVARIATE SEPARATION (segment level, all garments)
+==============================================================================
+
+separation = |mean_real - mean_fake| / pooled_std   (>1.0 is a good signal)
+AUC        = rank-based discriminative power        (0.5 = no signal, 1.0 = perfect)
+
+feature                  real_mean  real_std fake_mean  fake_std     sep       AUC
+------------------------------------------------------------------------------
+visible_frac                  0.93      0.09      0.89      0.15    0.40     0.583
+pose_dist_mean_px            13.72      2.37     27.20     14.81    1.52     0.847
+pose_dist_norm                0.06      0.01      0.06      0.02    0.15     0.537
+body_scale_px                62.20      5.38    134.48     63.54    1.93     0.872
+residual_mean_px              8.86      4.76     17.24     11.77    1.06     0.712
+residual_median_px            6.46      3.31     13.11      9.29    1.10     0.716
+residual_mean_norm            0.15      0.08      0.12      0.06    0.30     0.561
+residual_median_norm          0.11      0.06      0.09      0.05    0.26     0.554
+stretch_mean_abs              0.12      0.08      0.12      0.06    0.06     0.511
+stretch_std                   0.21      0.17      0.22      0.18    0.09     0.538
+stretch_max_abs               1.33      1.47      1.58      1.72    0.16     0.545
+strain_rate_mean              1.07      0.59      1.33      0.83    0.39     0.605
+drape_mean_angle_deg         15.06      7.76     16.19      5.46    0.16     0.565
+drape_angle_std_deg          15.12      6.27     16.59      4.67    0.25     0.558
+gravity_p95_angle_deg        42.10     18.08     44.95     12.01    0.18     0.532
+gravity_inversion_rate        0.00      0.02      0.00      0.01    0.01     0.543
+accel_mean_magnitude        977.28    422.78   2193.20   2076.41    0.96     0.682
+accel_std_magnitude         646.14    366.77   1494.97   1397.98    0.98     0.698
+accel_mean_norm              16.01      7.32     14.64     10.80    0.16     0.557
+accel_std_norm               10.53      5.85      9.79      6.58    0.12     0.547
+------------------------------------------------------------------------------
+
+Ranked by AUC (strongest signal first):
+  body_scale_px            AUC= 0.872  sep=  1.93  STRONG    real < fake  p=0.0000  [DIAGNOSTIC]
+  pose_dist_mean_px        AUC= 0.847  sep=  1.52  moderate  real < fake  p=0.0000  [DIAGNOSTIC]
+  residual_median_px       AUC= 0.716  sep=  1.10  moderate  real < fake  p=0.0000  [pixel units - scale-confounded]
+  residual_mean_px         AUC= 0.712  sep=  1.06  moderate  real < fake  p=0.0000  [pixel units - scale-confounded]
+  accel_std_magnitude      AUC= 0.698  sep=  0.98  weak      real < fake  p=0.0000  [pixel units - scale-confounded]
+  accel_mean_magnitude     AUC= 0.682  sep=  0.96  weak      real < fake  p=0.0000  [pixel units - scale-confounded]
+  strain_rate_mean         AUC= 0.605  sep=  0.39  weak      real < fake  p=0.0043
+  visible_frac             AUC= 0.583  sep=  0.40  no signal real > fake  p=0.0209  [DIAGNOSTIC]
+  drape_mean_angle_deg     AUC= 0.565  sep=  0.16  no signal real < fake  p=0.0758
+  residual_mean_norm       AUC= 0.561  sep=  0.30  no signal real > fake  p=0.0986
+  drape_angle_std_deg      AUC= 0.558  sep=  0.25  no signal real < fake  p=0.1161
+  accel_mean_norm          AUC= 0.557  sep=  0.16  no signal real > fake  p=0.1191
+  residual_median_norm     AUC= 0.554  sep=  0.26  no signal real > fake  p=0.1455
+  accel_std_norm           AUC= 0.547  sep=  0.12  no signal real > fake  p=0.1997
+  stretch_max_abs          AUC= 0.545  sep=  0.16  no signal real < fake  p=0.2177
+  gravity_inversion_rate   AUC= 0.543  sep=  0.01  no signal real < fake  p=0.1428
+  stretch_std              AUC= 0.538  sep=  0.09  no signal real < fake  p=0.2962
+  pose_dist_norm           AUC= 0.537  sep=  0.15  no signal real > fake  p=0.3113  [DIAGNOSTIC]
+  gravity_p95_angle_deg    AUC= 0.532  sep=  0.18  no signal real < fake  p=0.3872
+  stretch_mean_abs         AUC= 0.511  sep=  0.06  no signal real < fake  p=0.7633
+
+  CONFOUND CHECK: best diagnostic (body_scale_px) AUC=0.872
+                  best SCALE-FREE physics feature AUC=0.605
+                  (pixel-valued features are excluded here: they rise and
+                   fall with subject size in frame, so they cannot
+                   distinguish physics from camera framing.)
+                  WARNING: tracking quality separates the classes as
+                  well as the physics does. The physics claim is NOT
+                  yet supported - the features may be detecting that
+                  fakes simply track worse.
+
+==============================================================================
+3. PER-GARMENT BREAKDOWN
+==============================================================================
+
+Upper and lower garments drape differently, so a feature can work well
+on one and not the other. If so, Phase 5 should treat them separately.
+
+--- garment: lower  (137 rows: 90 real, 47 fake) ---
+feature                  real_mean fake_mean     sep       AUC
+visible_frac                  0.96      0.94    0.19     0.564
+pose_dist_mean_px            13.95     22.72    1.27     0.728
+pose_dist_norm                0.06      0.05    1.10     0.794
+body_scale_px                62.20    134.48    1.93     0.872
+residual_mean_px              8.69     16.48    0.99     0.718
+residual_median_px            6.29     12.04    1.04     0.730
+residual_mean_norm            0.14      0.12    0.30     0.549
+residual_median_norm          0.10      0.09    0.32     0.541
+stretch_mean_abs              0.12      0.13    0.24     0.600
+stretch_std                   0.19      0.26    0.38     0.635
+stretch_max_abs               1.19      1.94    0.41     0.650
+strain_rate_mean              1.06      1.42    0.48     0.654
+drape_mean_angle_deg         11.18     15.90    0.64     0.725
+drape_angle_std_deg          11.90     15.82    0.59     0.687
+gravity_p95_angle_deg        33.83     43.12    0.49     0.660
+gravity_inversion_rate        0.01      0.00    0.03     0.567
+accel_mean_magnitude        892.30   2373.09    0.99     0.685
+accel_std_magnitude         591.16   1656.86    1.07     0.701
+accel_mean_norm              14.70     15.46    0.08     0.506
+accel_std_norm                9.69     10.55    0.13     0.519
+
+--- garment: upper  (137 rows: 90 real, 47 fake) ---
+feature                  real_mean fake_mean     sep       AUC
+visible_frac                  0.91      0.83    0.58     0.620
+pose_dist_mean_px            13.48     31.67    1.85     0.948
+pose_dist_norm                0.06      0.07    0.76     0.715
+body_scale_px                62.20    134.48    1.93     0.872
+residual_mean_px              9.04     17.99    1.13     0.703
+residual_median_px            6.63     14.17    1.16     0.698
+residual_mean_norm            0.15      0.13    0.30     0.575
+residual_median_norm          0.11      0.10    0.20     0.564
+stretch_mean_abs              0.13      0.10    0.42     0.587
+stretch_std                   0.23      0.19    0.27     0.563
+stretch_max_abs               1.47      1.21    0.22     0.565
+strain_rate_mean              1.08      1.25    0.28     0.545
+drape_mean_angle_deg         18.94     16.47    0.49     0.624
+drape_angle_std_deg          18.35     17.35    0.34     0.587
+gravity_p95_angle_deg        50.36     46.77    0.42     0.602
+gravity_inversion_rate        0.00      0.00    0.04     0.515
+accel_mean_magnitude       1062.26   2013.31    0.98     0.684
+accel_std_magnitude         701.13   1333.08    0.89     0.691
+accel_mean_norm              17.32     13.82    0.46     0.608
+accel_std_norm               11.36      9.02    0.41     0.598
+
+==============================================================================
+4. VIDEO-LEVEL SEPARATION (segments averaged per video)
+==============================================================================
+
+separation = |mean_real - mean_fake| / pooled_std   (>1.0 is a good signal)
+AUC        = rank-based discriminative power        (0.5 = no signal, 1.0 = perfect)
+
+feature                  real_mean  real_std fake_mean  fake_std     sep       AUC
+------------------------------------------------------------------------------
+visible_frac                  0.93      0.04      0.89      0.09    0.70     0.667
+pose_dist_mean_px            13.72      1.74     26.66     12.23    1.80     0.889
+pose_dist_norm                0.06      0.00      0.06      0.01    0.30     0.667
+body_scale_px                62.20      5.69    131.34     70.17    1.70     0.867
+residual_mean_px              8.86      3.27     16.81     10.08    1.24     0.733
+residual_median_px            6.46      2.16     12.76      8.02    1.27     0.756
+residual_mean_norm            0.15      0.06      0.12      0.03    0.43     0.556
+residual_median_norm          0.11      0.04      0.09      0.03    0.39     0.533
+stretch_mean_abs              0.12      0.04      0.12      0.04    0.13     0.533
+stretch_std                   0.21      0.07      0.22      0.08    0.18     0.622
+stretch_max_abs               1.33      0.48      1.56      0.61    0.44     0.667
+strain_rate_mean              1.07      0.36      1.32      0.67    0.51     0.689
+drape_mean_angle_deg         15.06      4.70     16.21      2.28    0.28     0.667
+drape_angle_std_deg          15.12      3.20     16.62      1.73    0.54     0.644
+gravity_p95_angle_deg        42.10     10.20     44.97      4.72    0.33     0.622
+gravity_inversion_rate        0.00      0.01      0.00      0.00    0.04     0.600
+accel_mean_magnitude        977.28    319.68   2118.04   1946.32    0.99     0.689
+accel_std_magnitude         646.14    192.62   1441.99   1255.76    1.07     0.689
+accel_mean_norm              16.01      6.02     14.45     10.35    0.20     0.578
+accel_std_norm               10.53      3.66      9.64      5.68    0.20     0.511
+------------------------------------------------------------------------------
+
+Ranked by AUC (strongest signal first):
+  pose_dist_mean_px        AUC= 0.889  sep=  1.80  STRONG    real < fake  p=0.0190  [DIAGNOSTIC]
+  body_scale_px            AUC= 0.867  sep=  1.70  STRONG    real < fake  p=0.0290  [DIAGNOSTIC]
+  residual_median_px       AUC= 0.756  sep=  1.27  moderate  real < fake  p=0.1469  [pixel units - scale-confounded]
+  residual_mean_px         AUC= 0.733  sep=  1.24  moderate  real < fake  p=0.1898  [pixel units - scale-confounded]
+  strain_rate_mean         AUC= 0.689  sep=  0.51  weak      real < fake  p=0.2977
+  accel_mean_magnitude     AUC= 0.689  sep=  0.99  weak      real < fake  p=0.2977  [pixel units - scale-confounded]
+  accel_std_magnitude      AUC= 0.689  sep=  1.07  weak      real < fake  p=0.2977  [pixel units - scale-confounded]
+  stretch_max_abs          AUC= 0.667  sep=  0.44  weak      real < fake  p=0.3636
+  drape_mean_angle_deg     AUC= 0.667  sep=  0.28  weak      real < fake  p=0.3636
+  visible_frac             AUC= 0.667  sep=  0.70  weak      real > fake  p=0.3636  [DIAGNOSTIC]
+  pose_dist_norm           AUC= 0.667  sep=  0.30  weak      real > fake  p=0.3636  [DIAGNOSTIC]
+  drape_angle_std_deg      AUC= 0.644  sep=  0.54  weak      real < fake  p=0.4376
+  stretch_std              AUC= 0.622  sep=  0.18  weak      real < fake  p=0.5185
+  gravity_p95_angle_deg    AUC= 0.622  sep=  0.33  weak      real < fake  p=0.5185
+  gravity_inversion_rate   AUC= 0.600  sep=  0.04  weak      real < fake  p=0.5922
+  accel_mean_norm          AUC= 0.578  sep=  0.20  no signal real > fake  p=0.6993
+  residual_mean_norm       AUC= 0.556  sep=  0.43  no signal real > fake  p=0.7972
+  residual_median_norm     AUC= 0.533  sep=  0.39  no signal real < fake  p=0.8981
+  stretch_mean_abs         AUC= 0.533  sep=  0.13  no signal real < fake  p=0.8981
+  accel_std_norm           AUC= 0.511  sep=  0.20  no signal real > fake  p=1.0000
+
+  CONFOUND CHECK: best diagnostic (pose_dist_mean_px) AUC=0.889
+                  best SCALE-FREE physics feature AUC=0.689
+                  (pixel-valued features are excluded here: they rise and
+                   fall with subject size in frame, so they cannot
+                   distinguish physics from camera framing.)
+                  WARNING: tracking quality separates the classes as
+                  well as the physics does. The physics claim is NOT
+                  yet supported - the features may be detecting that
+                  fakes simply track worse.
+
+Note: video-level numbers are the honest ones to quote. Segment-level
+numbers look better only because segments from one video are correlated.
+
+==============================================================================
+5. FEATURE CORRELATION
+==============================================================================
+
+Two features correlated above ~0.9 are measuring the same thing; keeping
+both adds no information and can destabilise a small-sample classifier.
+
+                 visible_ pose_dis pose_dis body_sca residual residual residual residual stretch_ stretch_ stretch_ strain_r drape_me drape_an gravity_ gravity_ accel_me accel_st accel_me accel_st
+visible_frac         1.00    -0.32     0.06    -0.33    -0.39    -0.41    -0.18    -0.21    -0.22    -0.22    -0.12    -0.45    -0.22    -0.19    -0.24    -0.09    -0.22    -0.25     0.00    -0.11
+pose_dist_mean_     -0.32     1.00     0.34     0.83     0.66     0.69    -0.03     0.01    -0.01     0.02     0.04     0.22    -0.02    -0.01     0.01    -0.03     0.65     0.61     0.12     0.11
+pose_dist_norm       0.06     0.34     1.00    -0.14    -0.03    -0.02     0.01     0.03    -0.22    -0.23    -0.18    -0.22    -0.14    -0.14    -0.15    -0.09    -0.07    -0.16     0.02    -0.08
+body_scale_px       -0.33     0.83    -0.14     1.00     0.72     0.75    -0.06    -0.03     0.08     0.15     0.15     0.34    -0.02     0.01     0.03    -0.02     0.72     0.74     0.10     0.14
+residual_mean_p     -0.39     0.66    -0.03     0.72     1.00     0.95     0.57     0.54     0.33     0.36     0.33     0.46     0.18     0.15     0.21     0.15     0.69     0.70     0.33     0.35
+residual_median     -0.41     0.69    -0.02     0.75     0.95     1.00     0.48     0.57     0.32     0.32     0.27     0.47     0.18     0.13     0.21     0.15     0.69     0.67     0.31     0.32
+residual_mean_n     -0.18    -0.03     0.01    -0.06     0.57     0.48     1.00     0.92     0.43     0.36     0.29     0.28     0.29     0.19     0.30     0.27     0.14     0.14     0.39     0.38
+residual_median     -0.21     0.01     0.03    -0.03     0.54     0.57     0.92     1.00     0.42     0.33     0.23     0.31     0.32     0.20     0.33     0.31     0.16     0.15     0.39     0.38
+stretch_mean_ab     -0.22    -0.01    -0.22     0.08     0.33     0.32     0.43     0.42     1.00     0.91     0.73     0.76     0.33     0.36     0.47     0.37     0.16     0.16     0.24     0.27
+stretch_std         -0.22     0.02    -0.23     0.15     0.36     0.32     0.36     0.33     0.91     1.00     0.92     0.69     0.33     0.37     0.44     0.42     0.15     0.16     0.16     0.20
+stretch_max_abs     -0.12     0.04    -0.18     0.15     0.33     0.27     0.29     0.23     0.73     0.92     1.00     0.56     0.26     0.31     0.34     0.40     0.13     0.14     0.11     0.15
+strain_rate_mea     -0.45     0.22    -0.22     0.34     0.46     0.47     0.28     0.31     0.76     0.69     0.56     1.00     0.26     0.29     0.36     0.31     0.51     0.48     0.45     0.44
+drape_mean_angl     -0.22    -0.02    -0.14    -0.02     0.18     0.18     0.29     0.32     0.33     0.33     0.26     0.26     1.00     0.83     0.86     0.43     0.08     0.09     0.13     0.15
+drape_angle_std     -0.19    -0.01    -0.14     0.01     0.15     0.13     0.19     0.20     0.36     0.37     0.31     0.29     0.83     1.00     0.93     0.49     0.07     0.11     0.10     0.17
+gravity_p95_ang     -0.24     0.01    -0.15     0.03     0.21     0.21     0.30     0.33     0.47     0.44     0.34     0.36     0.86     0.93     1.00     0.51     0.09     0.12     0.13     0.19
+gravity_inversi     -0.09    -0.03    -0.09    -0.02     0.15     0.15     0.27     0.31     0.37     0.42     0.40     0.31     0.43     0.49     0.51     1.00     0.04     0.07     0.10     0.14
+accel_mean_magn     -0.22     0.65    -0.07     0.72     0.69     0.69     0.14     0.16     0.16     0.15     0.13     0.51     0.08     0.07     0.09     0.04     1.00     0.93     0.66     0.58
+accel_std_magni     -0.25     0.61    -0.16     0.74     0.70     0.67     0.14     0.15     0.16     0.16     0.14     0.48     0.09     0.11     0.12     0.07     0.93     1.00     0.57     0.68
+accel_mean_norm      0.00     0.12     0.02     0.10     0.33     0.31     0.39     0.39     0.24     0.16     0.11     0.45     0.13     0.10     0.13     0.10     0.66     0.57     1.00     0.83
+accel_std_norm      -0.11     0.11    -0.08     0.14     0.35     0.32     0.38     0.38     0.27     0.20     0.15     0.44     0.15     0.17     0.19     0.14     0.58     0.68     0.83     1.00
+
+Highly correlated pairs (|r| >= 0.90) - consider dropping one of each:
+  residual_mean_px  <->  residual_median_px   r=0.949
+  residual_mean_norm  <->  residual_median_norm   r=0.918
+  stretch_mean_abs  <->  stretch_std   r=0.911
+  stretch_std  <->  stretch_max_abs   r=0.916
+  drape_angle_std_deg  <->  gravity_p95_angle_deg   r=0.933
+  accel_mean_magnitude  <->  accel_std_magnitude   r=0.933
+
+==============================================================================
+6. COMBINED-FEATURE PREVIEW (leave-one-video-out)
+==============================================================================
+
+This is a PREVIEW of Phase 5, not Phase 5 itself. It trains a simple
+logistic regression on all features at video level, holding out one video
+at a time. It answers one question: do the Phase 4 features, taken
+together, carry enough signal to be worth training a classifier on?
+
+  NOTE: 12 features on 14 videos is enough to overfit badly.
+        Treat a LOW combined AUC as evidence of overfitting, not of
+        weak features - compare it against the best single-feature AUC.
+
+  features used: residual_mean_norm, residual_median_norm, stretch_mean_abs, stretch_std, stretch_max_abs, strain_rate_mean, drape_mean_angle_deg, drape_angle_std_deg, gravity_p95_angle_deg, gravity_inversion_rate, accel_mean_norm, accel_std_norm
+  videos: 14 (9 real, 5 fake)
+
+  leave-one-video-out accuracy : 35.7%  (5 / 14 correct)
+  leave-one-video-out AUC      : 0.711
+  Mann-Whitney p               : 0.2398
+
+  per-video predictions (score near 1.0 = predicted REAL):
+  video                              truth    score verdict
+  Man jumping (2)                    fake     0.970 WRONG
+  Man doing side lunges              real     0.898 ok
+  man doing ghost rope               real     0.844 ok
+  Man Excersing                      real     0.824 ok
+  Man playing badminton              fake     0.817 WRONG
+  man dancing                        fake     0.764 WRONG
+  Little girl dancing                fake     0.763 WRONG
+  Man playing basketball             real     0.730 ok
+  Man jumping                        fake     0.717 WRONG
+  Man jumping                        real     0.670 ok
+  Man boxing                         real     0.490 WRONG
+  Man high knee jumping              real     0.248 WRONG
+  Man playing basketball(1)          real     0.168 WRONG
+  Man doing Knee thrust              real     0.036 WRONG
+
+  VERDICT: weak. Do not move to Phase 5 yet - revisit the physics
+           constants and check the per-feature AUCs above to see which
+           feature is underperforming.
+
+==============================================================================
+SUMMARY
+==============================================================================
+
+No completeness problems detected. All features present and varying.

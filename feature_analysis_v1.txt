@@ -1,0 +1,174 @@
+PHASE 4 FEATURE ANALYSIS
+source: E:\Fyp Project\phase4_features.csv
+rows: 274  (180 real, 94 fake)
+videos: 14
+
+==============================================================================
+1. COMPLETENESS AUDIT
+==============================================================================
+
+Every feature should be present on (almost) every row. A high missing
+count means that feature is silently failing - fix it before Phase 5.
+
+feature                     present  missing  missing%
+------------------------------------------------------------------------------
+residual_mean_px                274        0      0.0%
+stretch_mean_abs                274        0      0.0%
+stretch_std                     274        0      0.0%
+stretch_max_abs                 274        0      0.0%
+drape_mean_angle_deg            175       99     36.1%   <-- PROBLEM
+accel_mean_magnitude            274        0      0.0%
+accel_std_magnitude             274        0      0.0%
+------------------------------------------------------------------------------
+total rows: 274
+
+Constant-value check (a feature that never varies is useless):
+
+==============================================================================
+2. UNIVARIATE SEPARATION (segment level, all garments)
+==============================================================================
+
+separation = |mean_real - mean_fake| / pooled_std   (>1.0 is a good signal)
+AUC        = rank-based discriminative power        (0.5 = no signal, 1.0 = perfect)
+
+feature                  real_mean  real_std fake_mean  fake_std     sep       AUC
+------------------------------------------------------------------------------
+residual_mean_px              7.03      5.12     17.53     14.81    1.09     0.698
+stretch_mean_abs              0.13      0.08      0.12      0.07    0.03     0.522
+stretch_std                   0.21      0.17      0.22      0.18    0.09     0.538
+stretch_max_abs               1.33      1.47      1.58      1.72    0.16     0.545
+drape_mean_angle_deg         42.61      8.17     42.71      8.04    0.01     0.508
+accel_mean_magnitude        993.10    425.23   2267.75   2133.68    0.98     0.686
+accel_std_magnitude         668.43    373.68   1606.03   1468.94    1.03     0.707
+------------------------------------------------------------------------------
+
+Ranked by AUC (strongest signal first):
+  accel_std_magnitude      AUC= 0.707  sep=  1.03  moderate  real < fake  p=0.0000
+  residual_mean_px         AUC= 0.698  sep=  1.09  weak      real < fake  p=0.0000
+  accel_mean_magnitude     AUC= 0.686  sep=  0.98  weak      real < fake  p=0.0000
+  stretch_max_abs          AUC= 0.545  sep=  0.16  no signal real < fake  p=0.2177
+  stretch_std              AUC= 0.538  sep=  0.09  no signal real < fake  p=0.2962
+  stretch_mean_abs         AUC= 0.522  sep=  0.03  no signal real < fake  p=0.5476
+  drape_mean_angle_deg     AUC= 0.508  sep=  0.01  no signal real > fake  p=0.8518
+
+==============================================================================
+3. PER-GARMENT BREAKDOWN
+==============================================================================
+
+Upper and lower garments drape differently, so a feature can work well
+on one and not the other. If so, Phase 5 should treat them separately.
+
+--- garment: lower  (137 rows: 90 real, 47 fake) ---
+feature                  real_mean fake_mean     sep       AUC
+residual_mean_px              6.35     15.47    1.11     0.732
+stretch_mean_abs              0.12      0.13    0.23     0.605
+stretch_std                   0.19      0.26    0.38     0.635
+stretch_max_abs               1.19      1.94    0.41     0.650
+drape_mean_angle_deg         40.60     42.87    0.27     0.601
+accel_mean_magnitude        905.59   2396.14    1.00     0.684
+accel_std_magnitude         607.50   1695.38    1.09     0.716
+
+--- garment: upper  (137 rows: 90 real, 47 fake) ---
+feature                  real_mean fake_mean     sep       AUC
+residual_mean_px              7.72     19.59    1.11     0.663
+stretch_mean_abs              0.14      0.11    0.29     0.565
+stretch_std                   0.23      0.19    0.27     0.563
+stretch_max_abs               1.47      1.21    0.22     0.565
+drape_mean_angle_deg         44.16     42.59    0.20     0.601
+accel_mean_magnitude       1080.62   2139.35    1.00     0.691
+accel_std_magnitude         729.36   1516.69    0.96     0.691
+
+==============================================================================
+4. VIDEO-LEVEL SEPARATION (segments averaged per video)
+==============================================================================
+
+separation = |mean_real - mean_fake| / pooled_std   (>1.0 is a good signal)
+AUC        = rank-based discriminative power        (0.5 = no signal, 1.0 = perfect)
+
+feature                  real_mean  real_std fake_mean  fake_std     sep       AUC
+------------------------------------------------------------------------------
+residual_mean_px              7.03      3.13     17.06     11.84    1.37     0.733
+stretch_mean_abs              0.13      0.04      0.12      0.04    0.07     0.533
+stretch_std                   0.21      0.07      0.22      0.08    0.18     0.622
+stretch_max_abs               1.33      0.48      1.56      0.61    0.44     0.667
+drape_mean_angle_deg         43.00      2.26     42.19      3.85    0.28     0.556
+accel_mean_magnitude        993.10    316.63   2189.37   2032.41    1.00     0.689
+accel_std_magnitude         668.43    190.36   1549.48   1341.18    1.12     0.778
+------------------------------------------------------------------------------
+
+Ranked by AUC (strongest signal first):
+  accel_std_magnitude      AUC= 0.778  sep=  1.12  moderate  real < fake  p=0.1119
+  residual_mean_px         AUC= 0.733  sep=  1.37  moderate  real < fake  p=0.1898
+  accel_mean_magnitude     AUC= 0.689  sep=  1.00  weak      real < fake  p=0.2977
+  stretch_max_abs          AUC= 0.667  sep=  0.44  weak      real < fake  p=0.3636
+  stretch_std              AUC= 0.622  sep=  0.18  weak      real < fake  p=0.5185
+  drape_mean_angle_deg     AUC= 0.556  sep=  0.28  no signal real > fake  p=0.7972
+  stretch_mean_abs         AUC= 0.533  sep=  0.07  no signal real < fake  p=0.8981
+
+Note: video-level numbers are the honest ones to quote. Segment-level
+numbers look better only because segments from one video are correlated.
+
+==============================================================================
+5. FEATURE CORRELATION
+==============================================================================
+
+Two features correlated above ~0.9 are measuring the same thing; keeping
+both adds no information and can destabilise a small-sample classifier.
+
+                 residual stretch_ stretch_ stretch_ drape_me accel_me accel_st
+residual_mean_p      1.00     0.37     0.38     0.35     0.04     0.57     0.61
+stretch_mean_ab      0.37     1.00     0.91     0.71     0.20     0.17     0.17
+stretch_std          0.38     0.91     1.00     0.92     0.25     0.15     0.16
+stretch_max_abs      0.35     0.71     0.92     1.00     0.25     0.12     0.14
+drape_mean_angl      0.04     0.20     0.25     0.25     1.00    -0.05    -0.01
+accel_mean_magn      0.57     0.17     0.15     0.12    -0.05     1.00     0.93
+accel_std_magni      0.61     0.17     0.16     0.14    -0.01     0.93     1.00
+
+Highly correlated pairs (|r| >= 0.90) - consider dropping one of each:
+  stretch_mean_abs  <->  stretch_std   r=0.909
+  stretch_std  <->  stretch_max_abs   r=0.916
+  accel_mean_magnitude  <->  accel_std_magnitude   r=0.931
+
+==============================================================================
+6. COMBINED-FEATURE PREVIEW (leave-one-video-out)
+==============================================================================
+
+This is a PREVIEW of Phase 5, not Phase 5 itself. It trains a simple
+logistic regression on all features at video level, holding out one video
+at a time. It answers one question: do the Phase 4 features, taken
+together, carry enough signal to be worth training a classifier on?
+
+  features used: residual_mean_px, stretch_mean_abs, stretch_std, stretch_max_abs, drape_mean_angle_deg, accel_mean_magnitude, accel_std_magnitude
+  videos: 14 (9 real, 5 fake)
+
+  leave-one-video-out accuracy : 71.4%  (10 / 14 correct)
+  leave-one-video-out AUC      : 0.578
+  Mann-Whitney p               : 0.6993
+
+  per-video predictions (score near 1.0 = predicted REAL):
+  video                              truth    score verdict
+  Man jumping (2)                    fake     0.994 WRONG
+  Man jumping                        fake     0.843 WRONG
+  Man high knee jumping              real     0.816 ok
+  Man playing badminton              fake     0.813 WRONG
+  Man doing side lunges              real     0.808 ok
+  Man boxing                         real     0.753 ok
+  Man Excersing                      real     0.748 ok
+  Man doing Knee thrust              real     0.675 ok
+  Man playing basketball             real     0.660 ok
+  Man playing basketball(1)          real     0.631 ok
+  Man jumping                        real     0.602 ok
+  man doing ghost rope               real     0.429 WRONG
+  Little girl dancing                fake     0.159 ok
+  man dancing                        fake     0.007 ok
+
+  VERDICT: weak. Do not move to Phase 5 yet - revisit the physics
+           constants and check the per-feature AUCs above to see which
+           feature is underperforming.
+
+==============================================================================
+SUMMARY
+==============================================================================
+
+Outstanding data problems to fix before Phase 5:
+  - drape_mean_angle_deg is missing on 36.1% of rows
