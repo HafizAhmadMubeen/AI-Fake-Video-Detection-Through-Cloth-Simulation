@@ -1,5 +1,6 @@
 # Virtual environment
 fyp_env/
+.venv/
 
 # Cloned external dependencies
 sam2_repo/
