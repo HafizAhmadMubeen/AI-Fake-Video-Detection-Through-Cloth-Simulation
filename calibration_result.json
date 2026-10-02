@@ -1,0 +1,596 @@
+{
+  "calibrated": {
+    "gravity": 800.0,
+    "stiffness": 1280.0,
+    "damping": 16.0
+  },
+  "previous": {
+    "gravity": 800.0,
+    "stiffness": 40.0,
+    "damping": 6.0
+  },
+  "anchor_mode": "frame",
+  "real_only_fit": true,
+  "scores": {
+    "old_real": {
+      "residual": 13.108066196854786,
+      "residual_mean": 14.507002876805371,
+      "free_dynamics": 20.057367133591853,
+      "free_frac": 0.6997238430136452,
+      "n_segments": 180
+    },
+    "new_real": {
+      "residual": 6.962320330549846,
+      "residual_mean": 7.828775925843661,
+      "free_dynamics": 8.378173834538702,
+      "free_frac": 0.6997238430136452,
+      "n_segments": 180
+    },
+    "old_fake_DIAGNOSTIC_ONLY": {
+      "residual": 17.32825964311717,
+      "residual_mean": 21.36541717709823,
+      "free_dynamics": 24.942492457627903,
+      "free_frac": 0.699262747229606,
+      "n_segments": 94
+    },
+    "new_fake_DIAGNOSTIC_ONLY": {
+      "residual": 14.604685080952894,
+      "residual_mean": 16.164841395006217,
+      "free_dynamics": 17.869920563298983,
+      "free_frac": 0.699262747229606,
+      "n_segments": 94
+    }
+  },
+  "search_history": [
+    {
+      "gravity": 800.0,
+      "stiffness": 5.0,
+      "damping": 6.0,
+      "residual": 14.26984795220202,
+      "residual_mean": 15.78566773313949,
+      "free_dynamics": 22.917299303186173,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 10.0,
+      "damping": 6.0,
+      "residual": 13.979765007053377,
+      "residual_mean": 15.419900141549176,
+      "free_dynamics": 22.23934476484659,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 20.0,
+      "damping": 6.0,
+      "residual": 13.488286954831107,
+      "residual_mean": 14.868059278976538,
+      "free_dynamics": 21.161016088057703,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 80.0,
+      "damping": 6.0,
+      "residual": 11.734954183306474,
+      "residual_mean": 13.206168194855339,
+      "free_dynamics": 17.900067258971102,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 160.0,
+      "damping": 6.0,
+      "residual": 10.534002868390424,
+      "residual_mean": 12.061023887230833,
+      "free_dynamics": 15.75377795731258,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 320.0,
+      "damping": 6.0,
+      "residual": 9.304103891085623,
+      "residual_mean": 10.681402039678408,
+      "free_dynamics": 13.27966920746281,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 640.0,
+      "damping": 6.0,
+      "residual": 7.8753281795685,
+      "residual_mean": 9.422286438360793,
+      "free_dynamics": 10.965406219913229,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 6.0,
+      "residual": 6.964506137502983,
+      "residual_mean": 8.556352262177782,
+      "free_dynamics": 9.338501629862215,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 0.5,
+      "residual": 7.626836166182775,
+      "residual_mean": 9.60526034352898,
+      "free_dynamics": 10.914928195032005,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 1.0,
+      "residual": 7.506101474229663,
+      "residual_mean": 9.4547980752048,
+      "free_dynamics": 10.679484384196003,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 2.0,
+      "residual": 7.310390001862595,
+      "residual_mean": 9.180671476968028,
+      "free_dynamics": 10.26983872998296,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 4.0,
+      "residual": 6.970850515138972,
+      "residual_mean": 8.785759708866516,
+      "free_dynamics": 9.674604365509401,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 10.0,
+      "residual": 6.933415249811279,
+      "residual_mean": 8.344497095511107,
+      "free_dynamics": 8.986304442909532,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.574345099595325,
+      "residual_mean": 8.31335542142221,
+      "free_dynamics": 8.886106065894689,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 25.0,
+      "residual": 6.9555037356882385,
+      "residual_mean": 8.458507894537775,
+      "free_dynamics": 9.05344418836176,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 40.0,
+      "residual": 6.886365808243239,
+      "residual_mean": 8.787342806793855,
+      "free_dynamics": 9.504038212690068,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 60.0,
+      "residual": 7.536718189889103,
+      "residual_mean": 9.21187684039916,
+      "free_dynamics": 10.163922311083505,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 25.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.800982048858118,
+      "residual_mean": 8.24922277902362,
+      "free_dynamics": 8.619038730595562,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 50.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.81674118119361,
+      "residual_mean": 8.237160750844513,
+      "free_dynamics": 8.61176381595893,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 100.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.80053686815687,
+      "residual_mean": 8.218386833094742,
+      "free_dynamics": 8.602545767514396,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 200.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.774644951124797,
+      "residual_mean": 8.194465790776475,
+      "free_dynamics": 8.60362452417,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 400.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.726024673967016,
+      "residual_mean": 8.189498726253088,
+      "free_dynamics": 8.641496624755796,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 1200.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.837209646141006,
+      "residual_mean": 8.623480024924142,
+      "free_dynamics": 9.354597629553787,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 1800.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 7.760609384464354,
+      "residual_mean": 9.339959410044123,
+      "free_dynamics": 10.35319914059137,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 2600.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 9.303670746404926,
+      "residual_mean": 10.513434699443943,
+      "free_dynamics": 11.885575571920958,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 5.0,
+      "damping": 16.0,
+      "residual": 9.500175795067873,
+      "residual_mean": 12.451517458600486,
+      "free_dynamics": 17.28001221676023,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 10.0,
+      "damping": 16.0,
+      "residual": 9.373799831865359,
+      "residual_mean": 12.277629575672437,
+      "free_dynamics": 16.94808929887591,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 20.0,
+      "damping": 16.0,
+      "residual": 9.159212338894857,
+      "residual_mean": 12.01563077243713,
+      "free_dynamics": 16.380037937819854,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 40.0,
+      "damping": 16.0,
+      "residual": 8.95953507931268,
+      "residual_mean": 11.655853523201086,
+      "free_dynamics": 15.54913662100865,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 80.0,
+      "damping": 16.0,
+      "residual": 8.671165135700688,
+      "residual_mean": 11.190322461722293,
+      "free_dynamics": 14.504705210134514,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 160.0,
+      "damping": 16.0,
+      "residual": 8.340987279135296,
+      "residual_mean": 10.610220551350702,
+      "free_dynamics": 13.298260805348413,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 320.0,
+      "damping": 16.0,
+      "residual": 7.778174735401682,
+      "residual_mean": 9.866608157738305,
+      "free_dynamics": 11.874116687175764,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 640.0,
+      "damping": 16.0,
+      "residual": 7.464790569697636,
+      "residual_mean": 9.038105687128933,
+      "free_dynamics": 10.301096190907865,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 0.5,
+      "residual": 7.626836166182775,
+      "residual_mean": 9.60526034352898,
+      "free_dynamics": 10.914928195032005,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 1.0,
+      "residual": 7.506101474229663,
+      "residual_mean": 9.4547980752048,
+      "free_dynamics": 10.679484384196003,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 2.0,
+      "residual": 7.310390001862595,
+      "residual_mean": 9.180671476968028,
+      "free_dynamics": 10.26983872998296,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 4.0,
+      "residual": 6.970850515138972,
+      "residual_mean": 8.785759708866516,
+      "free_dynamics": 9.674604365509401,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 6.0,
+      "residual": 6.964506137502983,
+      "residual_mean": 8.556352262177782,
+      "free_dynamics": 9.338501629862215,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 10.0,
+      "residual": 6.933415249811279,
+      "residual_mean": 8.344497095511107,
+      "free_dynamics": 8.986304442909532,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 25.0,
+      "residual": 6.9555037356882385,
+      "residual_mean": 8.458507894537775,
+      "free_dynamics": 9.05344418836176,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 40.0,
+      "residual": 6.886365808243239,
+      "residual_mean": 8.787342806793855,
+      "free_dynamics": 9.504038212690068,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 800.0,
+      "stiffness": 1280.0,
+      "damping": 60.0,
+      "residual": 7.536718189889103,
+      "residual_mean": 9.21187684039916,
+      "free_dynamics": 10.163922311083505,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 25.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.800982048858118,
+      "residual_mean": 8.24922277902362,
+      "free_dynamics": 8.619038730595562,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 50.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.81674118119361,
+      "residual_mean": 8.237160750844513,
+      "free_dynamics": 8.61176381595893,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 100.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.80053686815687,
+      "residual_mean": 8.218386833094742,
+      "free_dynamics": 8.602545767514396,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 200.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.774644951124797,
+      "residual_mean": 8.194465790776475,
+      "free_dynamics": 8.60362452417,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 400.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.726024673967016,
+      "residual_mean": 8.189498726253088,
+      "free_dynamics": 8.641496624755796,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 1200.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 6.837209646141006,
+      "residual_mean": 8.623480024924142,
+      "free_dynamics": 9.354597629553787,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 1800.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 7.760609384464354,
+      "residual_mean": 9.339959410044123,
+      "free_dynamics": 10.35319914059137,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    },
+    {
+      "gravity": 2600.0,
+      "stiffness": 1280.0,
+      "damping": 16.0,
+      "residual": 9.303670746404926,
+      "residual_mean": 10.513434699443943,
+      "free_dynamics": 11.885575571920958,
+      "free_frac": 0.699821048277378,
+      "n_segments": 36,
+      "degenerate": false
+    }
+  ]
+}
